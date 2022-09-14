@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int leakcount;
 
@@ -30,6 +31,9 @@ int main(int argc, char *argv[]) {
         strcat(execstr, argv[i]);
     }
 
+    puts(execstr);
+
+    /**
     // fork and exec
     pid_t p = fork();
     if (p = 0) {
@@ -37,6 +41,7 @@ int main(int argc, char *argv[]) {
     } else {
         // parent - monitor program
     }
+    */
 
     // print results
 }
