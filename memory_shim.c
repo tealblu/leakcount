@@ -31,13 +31,14 @@ void shim_start() {
     ogfree = dlsym(RTLD_NEXT, "free");
 }
 
-// Shim destructor, which actually does all the printing
+// Shim destructor, which actually does all the printing (to avoid inter-process communication)
 void shim_kill() {
+    // Initialize
     int leakcount = 0,
         leaksize = 0;
     
+    // Traverse list
     struct Node *iterator = NULL;
-
     for (iterator = head; iterator != NULL; iterator = iterator->next) {
         // Count leaks
         leakcount++;
@@ -52,8 +53,12 @@ void shim_kill() {
 
     // Print data
     fprintf(stderr, "TOTAL\t%d\t%d\n", leakcount, leaksize);
+
+    // Cleanup
+    ogfree(iterator);
 }
 
+// New malloc, which now tracks itself
 void* malloc(size_t size) {
     // Call original malloc and store pointer to allocated memory block
     void *mem = ogmalloc(size);
@@ -69,4 +74,34 @@ void* malloc(size_t size) {
 
     // Return pointer to allocated memory block
     return mem;
+}
+
+// New free, which also tracks itself
+void free(void *toFree) {
+    // Call original free
+    ogfree(toFree);
+
+    // Traverse list
+    struct Node *iterator = NULL;
+    struct Node *prev = NULL;
+    for (iterator = head; iterator != NULL; iterator = iterator->next) {
+        // Find block toFree is pointing to
+        if(iterator->val == toFree) {
+            // Adjust list
+            if(prev == NULL) {
+                head = iterator->next;
+            } else {
+                prev->next = iterator->next;
+            }
+
+            // Remove node
+            ogfree(iterator);
+
+            // Done
+            return;
+        }
+    }
+
+    // toFree is not pointing towards a block of memory recorded in the list
+    return;
 }
