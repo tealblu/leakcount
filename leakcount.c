@@ -29,16 +29,9 @@ int main(int argc, char *argv[]) {
 
     puts(execstr);
 
-    /**
-    // fork and exec
     pid_t p = fork();
     if (p = 0) {
         // child - run program
         execv('.', execstr);
-    } else {
-        // parent - monitor program
     }
-    */
-
-    // print results
 }
