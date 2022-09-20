@@ -4,13 +4,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-int leakcount;
+#include <unistd.h>
 
 int main(int argc, char *argv[]) {
-    // setup
-    leakcount = 0;
-
     // set up LD_PRELOAD
     const char *ldp = "LD_PRELOAD=./memory_shim.so";
 
@@ -34,6 +30,7 @@ int main(int argc, char *argv[]) {
     pid_t p = fork();
     if (p = 0) {
         // child - run program
+        execv('.', execstr);
     } else {
         // parent - monitor program
     }
