@@ -54,3 +54,19 @@ void shim_kill() {
     fprintf(stderr, "TOTAL\t%d\t%d\n", leakcount, leaksize);
 }
 
+void* malloc(size_t size) {
+    // Call original malloc and store pointer to allocated memory block
+    void *mem = ogmalloc(size);
+
+    // Create node
+    struct Node *temp = original_malloc(sizeof(struct Node));
+    temp->size = size;
+    temp->val = mem;
+
+    // Add temp node to top of list
+    temp->next = head;
+    head = temp;
+
+    // Return pointer to allocated memory block
+    return mem;
+}
