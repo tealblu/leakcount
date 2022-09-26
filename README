@@ -1,0 +1,30 @@
+TheREADMEfile should include your name, a short description of your project,
+and any other comments you think are relevant to the grading. It should
+have two clearly labeled sections titled with KNOWN PROBLEMS, and DESIGN. The KNOWN PROBLEMS section should include a specific description
+of all known problems or program limitations. This will not hurt your grade,
+and may (in rare cases) improve it. I am more sympathetic when students
+have thoroughly tested their code and clearly understand their shortcomings, and less so when I find bugs that students are ignorant of or have tried
+to hide. You should also include references to any materials that you referred
+to while working on the project. Please do not include special instructions
+for compilation. The compilation and running of the tests will be automated
+(see details below) and your instructions will not be followed.
+
+
+Charles "Blue" Hartsell
+CPSC 3220 F22
+Project 1
+
+Part 1 of this project is a memory leak detector built using a shim. Part 2 is a system call tracer.
+
+KNOWN ISSUES
+1. Integer to pointer conversion issues in leakcount.c when using execv. As of 9/24 at 4:40PM I can't figure out what I'm doing wrong.
+Will attempt to fix before Tuesday, though.
+
+DESIGN
+Sources used:
+https://stackoverflow.com/questions/31106601/attempting-to-use-execvpe-but-get-implicit-declaration-error-even-though
+https://www.youtube.com/watch?v=5HuM_eVjFJo
+https://piratelearner.com/en/C/course/computer-science/c-programming/design-your-interface-with-a-shim-layer/52/
+https://man7.org/linux/man-pages/man2/ptrace.2.html
+https://www.ibm.com/docs/en/zos/2.3.0?topic=functions-waitpid-wait-specific-child-process-end
+https://nullprogram.com/blog/2018/06/23/

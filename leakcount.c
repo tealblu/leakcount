@@ -6,10 +6,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
 
 int main(int argc, char *argv[]) {
     // set up LD_PRELOAD
-    const char *ldp = "LD_PRELOAD=./memory_shim.so";
+    const char *ldp = "LD_PRELOAD=\"./memory_shim.so\"";
 
     // calculate length of exec string
     int len = strlen(ldp) + (argc-1) + 1; // length of preload + spaces in argv + \n
@@ -27,11 +28,9 @@ int main(int argc, char *argv[]) {
         strcat(execstr, argv[i]);
     }
 
-    puts(execstr);
-
     pid_t p = fork();
-    if (p = 0) {
+    if (p == 0) {
         // child - run program
-        execv('.', execstr);
+        system(execstr);
     }
 }

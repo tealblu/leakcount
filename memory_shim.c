@@ -64,7 +64,7 @@ void* malloc(size_t size) {
     void *mem = ogmalloc(size);
 
     // Create node
-    struct Node *temp = original_malloc(sizeof(struct Node));
+    struct Node *temp = ogmalloc(sizeof(struct Node));
     temp->size = size;
     temp->val = mem;
 
