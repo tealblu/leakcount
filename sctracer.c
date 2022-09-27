@@ -14,9 +14,9 @@
 
 #define MAXSIZE 1024
 #define SYSCALLNUM 326
-#define true 1
+#define true 1 // for while loop  readability
 
-FILE *outfile;
+FILE *outfile; // global output file pointer
 
 int systemcalls[SYSCALLNUM];
 
@@ -42,33 +42,28 @@ int main(int argc, char **argv) {
             strcat(execstr, argv[i]);
         }
 
-        /**
-        char *args[MAXSIZE];
-        char *temp = strtok(execstr, " ");
-        char **ptr = args;
-
-        while (temp) {
-            *(ptr++) = temp;
-            temp = strtok(NULL, " ");
-        } */
-
         // setup ptrace
         ptrace(PTRACE_TRACEME);
         childpid = getpid();
         kill(childpid, SIGSTOP);
-        // execvp(args[0], args);
+
+        // run program
         system(execstr);
     } else {
         int status;
 
+        // wait for child to stop   
         waitpid(childpid, &status, 0);
+
         ptrace(PTRACE_SETOPTIONS, childpid, 0, PTRACE_O_TRACESYSGOOD);
 
         while(true) {
             do {
+                // wait for syscall
                 ptrace(PTRACE_SYSCALL, childpid, 0, 0);
                 waitpid(childpid, &status, 0);
 
+                // check if child exited
                 if(WIFEXITED(status)) {
                     outfile = fopen(argv[argc-1], "w"); // open output file in write mode
                     
@@ -85,9 +80,11 @@ int main(int argc, char **argv) {
                 }
             } while(!(WIFSTOPPED(status) && WSTOPSIG(status) & 0x80));
 
+            // get syscall number
             int count = ptrace(PTRACE_PEEKUSER, childpid, sizeof(long) * ORIG_RAX, 0);
             systemcalls[count]++;
             
+            // wait for syscall exit
             ptrace(PTRACE_SYSCALL, childpid, 0, 0);
             waitpid(childpid, &status, 0);
         }
