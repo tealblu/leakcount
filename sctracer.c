@@ -14,7 +14,7 @@
 
 #define MAXSIZE 1024
 #define SYSCALLNUM 326
-#define true 0
+#define true 1
 
 FILE *outfile;
 
@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
             strcat(execstr, argv[i]);
         }
 
+        /**
         char *args[MAXSIZE];
         char *temp = strtok(execstr, " ");
         char **ptr = args;
@@ -49,13 +50,14 @@ int main(int argc, char **argv) {
         while (temp) {
             *(ptr++) = temp;
             temp = strtok(NULL, " ");
-        }
+        } */
 
         // setup ptrace
         ptrace(PTRACE_TRACEME);
         childpid = getpid();
         kill(childpid, SIGSTOP);
-        execvp(args[0], args);
+        // execvp(args[0], args);
+        system(execstr);
     } else {
         int status;
 
