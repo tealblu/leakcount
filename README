@@ -17,11 +17,11 @@ Project 1
 Part 1 of this project is a memory leak detector built using a shim. Part 2 is a system call tracer.
 
 KNOWN ISSUES
-1. Integer to pointer conversion issues in leakcount.c when using execv. As of 9/24 at 4:40PM I can't figure out what I'm doing wrong.
-Will attempt to fix before Tuesday, though.
+1. Autograder not detecting memory_shim.so , but on my machine it compiles and runs fine.
 
 DESIGN
 Sources used:
+my mind
 https://stackoverflow.com/questions/31106601/attempting-to-use-execvpe-but-get-implicit-declaration-error-even-though
 https://www.youtube.com/watch?v=5HuM_eVjFJo
 https://piratelearner.com/en/C/course/computer-science/c-programming/design-your-interface-with-a-shim-layer/52/

@@ -45,7 +45,7 @@ void shim_kill() {
 
         //Track size
         int cursize = iterator->size;
-        leaksize = cursize + iterator->size;
+        leaksize += iterator->size;
 
         // Print data
         fprintf(stderr, "LEAK\t%d\n", cursize);

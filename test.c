@@ -5,6 +5,7 @@
 
 int main() {
     int * testArray = malloc(sizeof(int)*ARRAYSIZE);
+    int * testArray2 = malloc(sizeof(char)*ARRAYSIZE);
 
     for(int i = 0; i < ARRAYSIZE; i++) {
         *testArray = i;
@@ -12,7 +13,6 @@ int main() {
     }
 
     for(int i = 0; i < ARRAYSIZE; i++) {
-        printf("%i\n", *testArray);
         testArray--;
     }
 
